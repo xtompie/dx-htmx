@@ -23,8 +23,6 @@ This is the most basic usage. When the button is clicked, an HTTP GET request is
 * `hx-indicator`: selector for an element shown while request is pending
 * `hx-disable`: if present, prevents the element from triggering any request
 
-> ⚠️ `hx-disabled-elt` has been removed – not implemented.
-
 ## Event Binding
 
 You can call `hx(element)` in any event handler. The second argument (`event`) is optional but recommended in many cases:
