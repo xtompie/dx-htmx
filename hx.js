@@ -15,7 +15,7 @@ const hx = (() => {
                 if (!res.ok) throw new Error(`HTTP ${res.status}`);
                 return res.text();
             })
-            .then(html => render(html, task.target, task.swap, task.selector))
+            .then(html => render(html, task.target, task.swap, task.select))
             .finally(() => hide(task.indicator));
     };
 
@@ -52,10 +52,10 @@ const hx = (() => {
         const body = buildBody(el, method);
         const options = buildOptions(method, body);
         const swap = param(el, 'hx-swap') || 'innerHTML';
-        const selector = param(el, 'hx-select');
+        const select = param(el, 'hx-select');
         const indicator = findIndicator(el);
 
-        return { method, url, options, swap, selector, target, indicator };
+        return { method, url, options, swap, select, target, indicator };
     };
 
     const resolveMethodAndUrl = el => {
@@ -111,10 +111,10 @@ const hx = (() => {
         if (el) el.style.display = 'none';
     };
 
-    const render = (html, target, swap, selector) => {
+    const render = (html, target, swap, select) => {
         const frag = document.createElement('template');
         frag.innerHTML = html.trim();
-        const content = selector ? frag.content.querySelector(selector) : frag.content;
+        const content = select ? frag.content.querySelector(select) : frag.content;
         if (!content || !target?.parentNode) return;
 
         if (swap === 'outerHTML') {
