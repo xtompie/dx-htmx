@@ -2,7 +2,7 @@
 
 ## Introduction
 
-**dx-htmx** is a lightweight JavaScript library for dynamic HTML interactions, inspired by [htmx](https://htmx.org/) and aligned with the [dx](https://github.com/xtompie/dx) architecture.
+**dx-htmx** [htmx](https://htmx.org/) in [dx](https://github.com/xtompie/dx) architecture.
 
 > **Note:** `dx-htmx` supports only a subset of htmx features.
 
