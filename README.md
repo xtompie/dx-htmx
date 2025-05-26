@@ -17,7 +17,7 @@ This is the most basic usage. When the button is clicked, an HTTP GET request is
 ## Attribute List
 
 * `hx-get`, `hx-post`, `hx-put`, `hx-delete`, `hx-patch`: HTTP method and URL
-* `hx-target`: selector that defines where to insert the response; supports `closest`
+* `hx-target`: selector that defines where to insert the response
 * `hx-swap`: defines how the response is inserted (`innerHTML`, `outerHTML`, `append`, `prepend`, `none`)
 * `hx-select`: selector used to extract part of the response
 * `hx-indicator`: selector for an element shown while request is pending
@@ -50,16 +50,36 @@ Besides elements using `hx-get`, `hx-post`, etc., `hx()` recognizes native HTML 
 
 This allows `hx()` to work even without explicit `hx-*` attributes in common cases.
 
----
+## Selector
 
-## Closest
+Some attributes (`hx-target`, `hx-indicator`, etc.) accept a **selector string** to find an element in the DOM. `dx-htmx` supports the following selector types:
 
-When a selector starts with `closest`, it is resolved in two steps:
+### `this`
 
-1. The element walks up the DOM to find the nearest ancestor that matches the first part.
-2. Then, it optionally searches inside that ancestor using the remaining selector.
+Refers to the element that triggered the request.
 
-Example:
+```html
+<button hx-get="/x" hx-target="this" onclick="hx(this, event)">Click</button>
+```
+
+The response will be inserted into the button itself.
+
+### `find <selector>`
+
+Finds all elements matching the given selector **inside the current element**.
+
+```html
+<div hx-get="/x" hx-indicator="find .loading">
+    <span class="loading" style="display:none">Loading...</span>
+</div>
+```
+
+This looks for `.loading` **inside** the triggering element (`div` in this case).
+
+### `closest <selector> [subselector]`
+
+First finds the **closest ancestor** matching `<selector>`,
+then optionally queries inside it using `[subselector]`.
 
 ```html
 <button hx-target="closest .panel .content"></button>
@@ -67,10 +87,22 @@ Example:
 
 This will:
 
-* find the closest ancestor with class `.panel`
-* then look for a child `.content` inside that `.panel`
+1. Find the nearest ancestor with class `.panel`
+2. Then find `.content` inside that `.panel`
 
----
+If no `[subselector]` is provided, the ancestor itself is used.
+
+### Standard selector
+
+Any other string is treated as a standard global CSS selector.
+
+```html
+<button hx-target="#output" hx-get="/x" onclick="hx(this, event)">Click</button>
+<div id="output"></div>
+```
+
+This injects the response into the element with `id="output"`.
+
 
 ## Examples
 
@@ -97,8 +129,6 @@ In this example:
 * Clicking any tab button sends an HTTP GET request to the corresponding URL (e.g., `/tab/1`).
 * The response is injected into the `<div tab-content>` using the `innerHTML` swap strategy.
 * Only the content area is updated, not the buttons themselves.
-
----
 
 ### Click to load
 
