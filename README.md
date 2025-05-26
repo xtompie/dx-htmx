@@ -163,7 +163,7 @@ In this example:
 * The response replaces the `<li>` using the `outerHTML` swap.
 * The `htmx-indicator` image is displayed while the request is in progress.
 
-Example response body for `/contacts/?page=4`:
+Example response body for `/contacts/?page=3`:
 
 ```html
     <li>Agent 3</li>
